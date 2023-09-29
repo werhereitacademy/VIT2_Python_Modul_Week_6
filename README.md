@@ -2,7 +2,7 @@
 ![resim](https://github.com/werhereitacademy/week_6/assets/141542413/1b3ec14b-5895-4afc-8cb1-df7c34139323)
 #### Overview
 This Python program is a simple Task Management System that allows users to create, edit, track, and display tasks. It uses Object-Oriented Programming (OOP) principles to create a structured system for managing tasks.
-Prerequisites
+##### Prerequisites
 Before working on this program, students should have a basic understanding of the following concepts:
 1. Python programming fundamentals (variables, functions, classes, objects).
 2. Inheritance and abstract classes in Python.
