@@ -57,7 +57,8 @@ Before working on this program, students should have a basic understanding of th
 4. Create a user interface (e.g., a command-line or graphical interface) to interact with the task management system.
 5. Write unit tests to ensure the program's functionality is correct.
 By working on these exercises, students can deepen their understanding of OOP principles and improve their Python programming skills.
-Exp: Let's consider an example where we create, edit, and track tasks using your program:
+
+##### Exp: Let's consider an example where we create, edit, and track tasks using your program:
 ![resim](https://github.com/werhereitacademy/week_6/assets/141542413/bf32d5d1-9b8a-421c-a165-713a32c5460b)
 
 ##### Expected Output:
