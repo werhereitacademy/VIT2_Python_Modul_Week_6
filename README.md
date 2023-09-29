@@ -14,27 +14,34 @@ Before working on this program, students should have a basic understanding of th
 * This class serves as the core of the task management system.
 * It contains a list (taskList) to store tasks.
 * It provides methods to add and display tasks.
+  
 2.Task Scheduling Class (TaskScheduling):
 * This class is responsible for creating and adding tasks to the TaskManagement instance.
 * It uses the PersonalTask and WorkTask classes to create specific types of tasks.
 * It enforces proper task type (Personal or Work).
+  
 3.Task Editing Class (TaskEditing):
 * This class handles various editing operations on tasks.
 * Students will learn how to modify task attributes such as status, priority, and deadline.
 * They will also learn about searching for tasks and removing tasks from the list.
+  
 4.Task Tracking Class (TaskTracking):
 * This class allows tracking task statuses.
 * Students will learn how to retrieve the status of a task and mark tasks as completed.
+  
 5.Abstract Base Class (Task):
 * An abstract base class defines the common structure for PersonalTask and WorkTask subclasses.
 * It introduces the concept of abstract methods and demonstrates inheritance.
+  
 6.PersonalTask and WorkTask Classes:
 * These are subclasses of the ‘Task’ class, representing personal and work-related tasks.
 * Students will understand how to override methods and use class-specific attributes.
 * They will see how to implement interfaces/abstract classes (‘Priorization’).
+  
 7.Special Keywords Dictionary (SPECIAL_KEYWORDS):
 * A dictionary is used to handle special keywords like "today," "tomorrow," and "next week" for deadlines.
 * Students will learn about dictionary usage and date manipulation.
+  
 #### Key Learning Points
 * Object-Oriented Programming concepts (classes, objects, inheritance, abstract classes).
 * Proper encapsulation and data hiding.
@@ -42,6 +49,7 @@ Before working on this program, students should have a basic understanding of th
 * Working with dates and times using the datetime module.
 * Using dictionaries for mapping special keywords.
 * Implementing interfaces/abstract classes in Python.
+  
 #### Assignment/Exercises for Students
 1. Create a new task type (e.g., "StudyTask") by extending the program. Implement its specific behavior and attributes.
 2. Add more editing operations (e.g., change task color or add notes).
