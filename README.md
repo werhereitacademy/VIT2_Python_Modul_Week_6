@@ -56,6 +56,7 @@ Before working on this program, students should have a basic understanding of th
 3. Implement a feature to sort tasks by priority or deadline.
 4. Create a user interface (e.g., a command-line or graphical interface) to interact with the task management system.
 5. Write unit tests to ensure the program's functionality is correct.
+   
 By working on these exercises, students can deepen their understanding of OOP principles and improve their Python programming skills.
 
 ##### Exp: Let's consider an example where we create, edit, and track tasks using your program:
