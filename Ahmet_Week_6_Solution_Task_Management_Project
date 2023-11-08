@@ -1,0 +1,219 @@
+import datetime
+from abc import ABC, abstractmethod
+from datetime import datetime
+class Task(ABC):
+    def __init__(self, gorev_id, gorev_adi, deadline, durumu='Beklemede'):  # Pending
+        self.gorev_id = gorev_id
+        self.gorev_adi = gorev_adi
+        self.deadline = deadline
+        self.durumu = durumu
+        self.priority = 'Normal'
+        self.Renk_Ver()
+    @abstractmethod
+    def Renk_Ver(self):
+        self.renk = None
+
+
+
+    def gorev_tarih_fonk(self):
+        gorev_tarihi = datetime.now().date()
+        son_tarih = datetime.strptime(self.deadline, "%d-%m-%Y").date()
+        kalan_tarih = (gorev_tarihi - son_tarih).days
+        return kalan_tarih
+
+    def __str__(self):
+        return (f"Gorev ID'si: {self.gorev_id}, Gorev Adı: {self.gorev_adi}, Deadline: {self.deadline}, Rengi: {self.renk}, Durumu: {self.durumu}, Priority: {self.priority}, Kalan Tarih: {self.gorev_tarih_fonk()}.")
+
+
+
+
+class PersonalTask(Task):
+    def __init__(self, gorev_id, gorev_adi, deadline, durumu='Beklemede'):
+        super().__init__(gorev_id, gorev_adi, deadline, durumu)
+        self.priority = 'Normal'  # Burada sadece bu sınıfta kaydedilenlerin önceliğini belirliyoruz.
+
+    def Renk_Ver(self):
+        self.renk = 'Mavi'
+
+
+class WorkTask(Task):
+    def __init__(self,gorev_id, gorev_adi, deadline, durumu='Beklemede'):
+        super().__init__(gorev_id, gorev_adi, deadline, durumu)
+        self.priority = 'İvedi'
+
+    def Renk_Ver(self):
+        self.renk = 'Turuncu'
+
+
+
+
+#---------- (TaskManagement)
+
+
+class TaskManagement: #Bu Chief sınıfına bağlanan asıl merkezdeki sınıf, TaskManagement(c) -
+    def __init__(self):
+        self.task_list = []
+
+    def gorev_ekle(self,gorev):
+        self.task_list.append(gorev)
+        print(f'{gorev} Görevi Başarıyla Eklendi!')
+
+    def gorev_goruntule(self):
+        for gorev in self.task_list:
+            print (gorev)
+
+
+
+#3. Görev Düzenleme Sınıfı (TaskEditing):  +
+
+class Gorev_Duzenle:
+    def __init__(self,gorev_yonetimi):
+        self.gorev_yonetimi = gorev_yonetimi
+
+    def gorev_ara(self,aranacak_id):
+        for grv in self.gorev_yonetimi.task_list:
+            if grv.gorev_id == aranacak_id:
+                return grv
+        else:
+            print(f'{aranacak_id} ID Numaralı Görev Kaydına Ulaşılamadı!') 
+        #return None
+
+    def gorev_durum_goruntule(self,gorev_id):#,goruntulenecek):
+        veri = self.gorev_ara(gorev_id)
+        return veri
+        #if veri:
+        #    veri.goruntulenecek = goruntulenecek
+
+    def gorev_adi_duzenle(self,gorev_id,gorev_adi):
+        i = self.gorev_ara(gorev_id)
+        if i:
+            i.gorev_adi = gorev_adi
+
+
+
+
+    def bitis_tarih_duzenle(self,gorev_id, deadline):
+        tarih = self.gorev_ara(gorev_id)
+        if tarih:
+            tarih.deadline = deadline
+
+        else:
+            print(f"{gorev_id} ID Numaralı Görevin {deadline} Deadline Bilgisine Ulaşılamadı.")
+
+
+
+    def gorev_tamamla(self,gorev_id): 
+        vaziyet = self.gorev_ara(gorev_id)
+        if vaziyet:
+            vaziyet.durumu = 'Tamamlandı!'
+            return True
+        else:
+            print(f'{gorev_id} ID Numaralı Görev Kaydı Yok!')
+            return False
+
+
+
+    def oncelik_duzenle(self, gorev_id, priority):
+        oncelik = self.gorev_ara(gorev_id)
+        if oncelik:
+            oncelik.priority = priority
+        else:
+            print(f'{gorev_id} ID Numaralı Görevin {priority} Oncelik Bilgisine Ulaşılamamıştır.')
+
+
+
+    def gorev_kaldir(self,gorev_id):#, silme):
+        silgi = self.gorev_ara(gorev_id)
+        if silgi:# == silme:
+            self.gorev_yonetimi.task_list.remove(silgi)
+
+        #else:
+        #    print(f'Aradığınız {silme} Adlı Görev Bulunamamıştır!')
+
+# 4.Görev İzleme Sınıfı (TaskTracking):
+
+class Gorev_izle:
+    def __init__(self,gorev_yonetimi):
+        self.gorev_yonetimi = gorev_yonetimi
+
+    def gorev_ara(self,aranacak_id):
+        for grv in self.gorev_yonetimi.task_list:
+            if grv.gorev_id == aranacak_id:
+                return grv
+        print(f'{aranacak_id} ID Numaralı Görev Kaydı Bulunamadı!') 
+        return None
+
+
+    def gorev_sorgula(self,gorev_id):
+        #sorgula = self.Gorev_Duzenle.gorev_ara(gorev_id)
+        sorgula = self.gorev_ara(gorev_id)
+        if sorgula:
+            return print(f"{gorev_id} ID Numaralı Görevin Durumu: {sorgula.durumu}") #Kontrol et sonra iki parametre alıyor.
+        else:
+            return print(f'{gorev_id} ID Numaralı Göreve Ulaşılamadı!')
+    #========================
+
+    def son_tarih_goruntule(self,gorev_id):
+        #goruntule = self.Gorev_Duzenle.gorev_ara(gorev_id)
+        goruntule = self.gorev_ara(gorev_id)
+        if goruntule:
+            return print(f"{gorev_id} ID Numaralı Görevin Deadline'ı: {goruntule.deadline}")
+
+        else:
+            return print(f'{gorev_id} ID Numaralı Göreve Ulaşılamadı!')
+
+
+    def renk_goruntule(self,gorev_id):
+        #kleur = self.Gorev_Duzenle.gorev_ara(gorev_id)
+        kleur = self.gorev_ara(gorev_id)
+        if kleur:
+            return print(f"{gorev_id} ID Numaralı Görevi Rengi: {kleur.renk}")
+
+
+
+
+t1 = TaskManagement()
+t2 = TaskManagement()
+
+
+g1 = Gorev_Duzenle(t1)
+g2 = Gorev_Duzenle(t2)
+
+i1 = Gorev_izle(t1)
+i2 = Gorev_izle(t2)
+
+p1 = PersonalTask(1,'Proje1','20-11-2023')
+p2 = PersonalTask(2,'Proje2','15-12-2023')
+w1 = WorkTask(3,'Werk1','25-11-2023')
+w2 = WorkTask(4,'Werk2','10-12-2023')
+
+
+t1.gorev_ekle(p1)
+t1.gorev_ekle(w1)
+
+t2.gorev_ekle(p2)
+t2.gorev_ekle(w2)
+
+
+
+g1.gorev_durum_goruntule(1)
+g1.gorev_tamamla(1)
+g1.gorev_tamamla(2)#2 Numaralı ID olmadığından kaydı yok yazdı.
+g2.gorev_tamamla(2)
+g1.gorev_durum_goruntule(3)#,'Nedir')
+
+i1.renk_goruntule(3)
+i2.renk_goruntule(2)
+g1.oncelik_duzenle(1,'İvedi')
+t1.gorev_goruntule()
+
+g1.gorev_kaldir(1)
+print('---')
+t1.gorev_goruntule() #1 Id Numaralı Gorev Silindiği için gözükmüyor!
+g1.gorev_durum_goruntule(2)# #Burda da 2 ID Numaralı Görev Olmadığından Bulunamadı Yaazıyor.
+
+t2.gorev_goruntule()
+
+i1.son_tarih_goruntule(3)
+i2.son_tarih_goruntule(2)
+i1.gorev_sorgula(3)
