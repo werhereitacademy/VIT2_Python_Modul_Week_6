@@ -1,0 +1,157 @@
+# main.py 
+from taskScheduling import  PersonalTask, WorkTask
+from taskEditing import TaskEditing
+from taskTracking import TaskTracking
+
+class TaskManagement:
+    def __init__(self):
+        self.task_list = []
+
+    def add_task(self, task):
+        self.task_list.append(task)
+
+    def display_tasks(self):
+        for task in self.task_list:
+            print(task)
+
+# Create a Task Management instance
+t1 = TaskManagement()
+
+te = TaskEditing(t1)
+tt = TaskTracking(t1)
+
+
+p1 = PersonalTask(1, "P1", "2023-11-20")
+w1 = WorkTask(2, "W2", "2023-11-25")
+
+
+
+t1.add_task(p1)
+t1.add_task(w1)
+
+# Display tasks
+#t1.display_tasks()
+
+
+te.set_task_status(1, "In Progress")
+t1.display_tasks()
+te.mark_status_completed(1)
+t1.display_tasks()
+te.set_prioritization(1,'Not Important')
+tt.get_task_deadline(1)
+
+#taskEditing.py
+
+class TaskEditing:
+    def __init__(self, task_management):
+        self.task_management = task_management
+
+    def set_task_status(self, task_id, status):
+        task = self.get_task_by_id(task_id)
+        if task:
+            task.status = status
+
+    def set_prioritization(self, task_id, priority):
+        task = self.get_task_by_id(task_id)
+        if task:
+            task.priority = priority
+
+    def set_new_date(self, task_id, deadline):
+        task = self.get_task_by_id(task_id)
+        if task:
+            task.deadline = deadline
+
+    def mark_status_completed(self, task_id):
+        task = self.get_task_by_id(task_id)
+        if task:
+            task.status = "Completed"
+            return True
+        else:
+            print(f"Task with ID {task_id} not found.")
+            return False
+
+    def get_task_by_id(self, task_id):
+        for task in self.task_management.task_list:
+            if task.task_id == task_id:
+                return task
+        print(f"Task with ID {task_id} not found.")
+        return None
+
+#taskScheduling.py
+from datetime import datetime
+from abc import ABC, abstractmethod
+
+class Task(ABC):
+    def __init__(self, task_id, task_name, deadline, status="Pending"):
+        self.task_id = task_id
+        self.task_name = task_name
+        self.deadline = deadline
+        self.status = status
+        self.priority = "Low"  # Default priority
+        self.color_your_task()
+    @abstractmethod
+    def color_your_task(self):
+        pass
+
+    def days_to_accomplish_task(self):
+        # Calculate the remaining days until the deadline
+        current_date = datetime.now().date()
+        deadline_date = datetime.strptime(self.deadline, "%Y-%m-%d").date()
+        remaining_days = (deadline_date - current_date).days
+        return remaining_days
+
+    def __str__(self):
+        return f"Task ID: {self.task_id}, Name: {self.task_name}, Deadline: {self.deadline}, Color: {self.color}, Status: {self.status}, Priority: {self.priority}, Remaining Days: {self.days_to_accomplish_task()}"
+
+
+
+class PersonalTask(Task):
+    def __init__(self,task_id, task_name, deadline, status="Pending"):
+        super().__init__(task_id, task_name, deadline, status)
+        self.priority = "Low"
+
+
+    def color_your_task(self):
+        self.color = "Blue"
+
+class WorkTask(Task):
+    def __init__(self, task_id,   task_name, deadline, status="Pending"):
+        super().__init__(task_id, task_name, deadline, status)
+        self.priority = "High"
+
+
+    def color_your_task(self):
+        self.color = "Red"
+
+#taskTracking.py
+class TaskTracking:
+
+    def __init__(self, task_management):
+        self.task_management = task_management
+
+    def get_task_status(self, task_id):
+        task = self.get_task_by_id(task_id)
+        if task:
+            return  print(f"Task with ID {task_id}'s status is {task.status}.")
+        else:
+            return print(f"Task with ID {task_id} not found.")
+
+    def get_task_deadline(self, task_id):
+        task = self.get_task_by_id(task_id)
+        if task:
+            return  print(f"Task with ID {task_id}'s deadline is {task.deadline}.")
+        else:
+            return print(f"Task with ID {task_id} not found.")
+
+    def get_task_color(self, task_id):
+        task = self.get_task_by_id(task_id)
+        if task:
+            return  print(f"Task with ID {task_id}'s color is {task.color}.")
+        else:
+            return print(f"Task with ID {task_id} not found.")
+
+    def get_task_by_id(self, task_id):
+        for task in self.task_management.task_list:
+            if task.task_id == task_id:
+                return task
+        return None
